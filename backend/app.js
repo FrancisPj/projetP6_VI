@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+// Import des routes
+const userModel = require('./models/user');
+const sauceModel = require('./models/sauce');
 
 // Configuration de la base de données mongoDB avec des variables d'environnement
-mongoose.connect('mongodb://localhost/',
+mongoose.connect('mongodb+srv://francis:xW9W8jGy9vK2Bx0d@atlascluster.ldde9ep.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
