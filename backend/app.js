@@ -5,6 +5,19 @@ const mongoose = require('mongoose');
 const dotenv = require("dotenv").config();
 
 const userModel = require('./models/user');
+
+/*
+app.post('/api/login', (req, res, next) => {
+    delete req.body._id;
+    const user = new userModel({
+        ...req.body
+    });
+    thing.save()
+        .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+        .catch(error => res.status(400).json({ error }));
+});
+*/
+
 const sauceModel = require('./models/sauce');
 
 // Configuration de la base de données mongoDB avec des variables d'environnement
