@@ -1,12 +1,29 @@
 const express = require('express');
 const app = express();
+
+//j'enregistre le routeur dans notre application
 const userRoutes = require('./routes/users');
+const sauceRoutes = require('./routes/sauces');
+
+// on importe path : donne accés au chemin du système de fichiers
+const path = require('path');
+
 const mongoose = require('mongoose');
+
+// Sécurités nécessaires
+// Helmet sécurise les applications Express en définissant divers en-têtes HTTP
 const helmet = require('helmet');
 
+// Express-rate-limit sert à limiter la demande entrante.
+require('express-rate-limit');
+
+// Dotenv sert à importer un fichier de variables d'environnement.
 require('dotenv').config();
+
+//express.json donne accès à req.body
 app.use(express.json());
 
+//La méthode app.use() permet d'attribuer un middleware à une route spécifique de l'application.
 app.use((req, res, next) => {
         //'Access-Control-Allow-Origin' = origine, '*' = tout le monde
         //origine qui a le droit d'accéder à l'API c'est tout le monde
@@ -18,6 +35,7 @@ app.use((req, res, next) => {
         next();
 });
 
+// Configuration de la base de données mongoDB avec des variables d'environnement
 mongoose.connect(process.env.MONGODB_URI,
     { useNewUrlParser: true,
             useUnifiedTopology: true })
@@ -29,8 +47,14 @@ app.use(helmet({
 }));
 
 
+// Routes attendues par le frontend
+app.use('api/auth', userRoutes);
+console.log("Express server listening on port", app.port);
+app.use('api/sauces', sauceRoutes);
 
-app.use('api/auth', userRoutes)
-console.log("Express server listening on port", app.port)
+
+// Middleware de téléchargement de fichiers (ici, images des sauces)
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 module.exports = app;
