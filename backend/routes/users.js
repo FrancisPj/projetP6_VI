@@ -3,9 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 const userCtrl = require('../controllers/user');
+const emailCtrl = require('../middleware/emailControler')
+const pwdCtrl = require('../middleware/passwordController')
 
 // CRUD = CREATE ( POST ) / READ ( GET ) / UPDATE ( PUT, PATH ) / DELETE DELETE
-router.post('/signup', userCtrl.signup);
+router.post('/signup', emailCtrl, pwdCtrl, userCtrl.signup);
 
 router.post('/login', userCtrl.login);
 

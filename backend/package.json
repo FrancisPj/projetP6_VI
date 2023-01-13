@@ -14,13 +14,15 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "express-rate-limit": "^6.4.0",
-    "file-system": "^2.2.2",
     "fs": "^0.0.1-security",
     "helmet": "^5.1.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.4.3",
     "mongoose-unique-validator": "^3.1.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "password": "^0.1.1",
+    "password-validator": "^5.3.0",
+    "validator": "^13.7.0"
   }
 }

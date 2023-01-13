@@ -8,8 +8,6 @@ const sauceRoutes = require('./routes/sauces');
 // on importe path : donne accés au chemin du système de fichiers
 const path = require('path');
 
-const fs = require('fs');
-
 const mongoose = require('mongoose');
 
 // Sécurités nécessaires
@@ -17,7 +15,13 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 
 // Express-rate-limit sert à limiter la demande entrante.
-require('express-rate-limit');
+const rateLimiter  = require('express-rate-limit');
+const limiter = rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
 
 // Dotenv sert à importer un fichier de variables d'environnement.
 require('dotenv').config();
@@ -48,6 +52,7 @@ app.use(helmet({
     crossOriginResourcePolicy: { policy: "same-site" }
 }));
 
+app.use(limiter)
 
 // Routes attendues par le frontend
 app.use('/api/auth', userRoutes);
