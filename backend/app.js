@@ -8,6 +8,8 @@ const sauceRoutes = require('./routes/sauces');
 // on importe path : donne accés au chemin du système de fichiers
 const path = require('path');
 
+const fs = require('fs');
+
 const mongoose = require('mongoose');
 
 // Sécurités nécessaires
@@ -48,9 +50,9 @@ app.use(helmet({
 
 
 // Routes attendues par le frontend
-app.use('api/auth', userRoutes);
-console.log("Express server listening on port", app.port);
-app.use('api/sauces', sauceRoutes);
+app.use('/api/auth', userRoutes);
+
+app.use('/api/sauces', sauceRoutes);
 
 
 // Middleware de téléchargement de fichiers (ici, images des sauces)

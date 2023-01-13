@@ -25,7 +25,7 @@ const sauceSchema = mongoose.Schema({
 });
 
 //nous exportons ce schéma en tant que modèle Mongoose, le rendant par là même disponible pour notre application Express.
-module.exports = mongoose.model('Sauce', sauceSchema);
+module.exports = mongoose.model('sauce', sauceSchema);
 
 
 //    La méthode "Schema" de Mongoose vous permet de créer un schéma de données pour votre base de données MongoDB.

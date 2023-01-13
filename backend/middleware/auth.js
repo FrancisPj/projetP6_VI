@@ -2,8 +2,7 @@
 const jwt = require('jsonwebtoken');
 
 // On importe les variables d'environnement.
-const dotenv = require("dotenv").config();
-
+require("dotenv").config();
 // on exporte la requete. Création du middleware d'authentification.
 module.exports = (req, res, next) => {
     try {

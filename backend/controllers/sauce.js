@@ -1,17 +1,33 @@
-
-// On inclut le module fs (filesystem) de Node js pour la gestion des fichiers. Pour modifier le système de donnée pour la foncion delete
+// On inclut le module fs (filesystem) de Node js pour la gestion des fichiers. Pour modifier le système de donnée pour la fonction delete
 const fs = require('fs');
 
 // On importe le modèle Sauce
-const Sauce = require('../models/Sauce');
+const Sauce = require('../models/sauce');
+
+
+// Controleur pour l'affichage d'une sauce
+exports.getOneSauce = (req, res, next) =>{
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => res.status(200).json(sauce))
+        .catch(error => res.status(400).json({ error }));
+};
+
+// Controleur pour l'affichage de toutes les sauces
+exports.getAllSauces = (req, res, next) => {
+    Sauce.find() // on utilise la méthode find et on renvoie un tableau contenant la liste complète des Sauces de la BDD
+        .then(sauces => res.status(200).json(sauces))
+        .catch(error => res.status(400).json({ error }));
+};
 
 // Controleur pour la création d'une sauce
 exports.createSauce = (req, res, next) => {
+    // on extrait le sauce de la requête via le parse
+    // dans req.body.sauce le sauce correspond
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
-    delete sauceObject._userId;
+    delete sauceObject.userId;
     const sauce = new Sauce({
-        ...sauceObjet,
+        ...sauceObject,
         userId: req.auth.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`});
 
@@ -29,19 +45,20 @@ exports.createSauce = (req, res, next) => {
 
 // Controleur pour la modification d'une sauce
 exports.modifySauce = (req, res, next) => {
+    // on crée un objet qui regarde si req.file existe ou non.
     const sauceObject = req.file ? {
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
+        ...JSON.parse(req.body.sauce),//on récupère l'objet en parsant la chaine de caractères
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // on recrée l'URL de l'image
+    } : { ...req.body }; // si pas d'objet on le récupère dans le corp de la requête
 
-    delete sauceObject._userId;
+    delete sauceObject.userId;
 
     Sauce.findOne({_id: req.params.id})
         .then((sauce) => {
             // On vérifie si l'auteur de la sauce est bien la personne connectée
             // si ce n'est pas le cas, on renvoie un message d'erreur
-            if (sauce.userId != req.auth.userId) {
-                res.status(403).json({ message : 'Requête non autorisée !'});
+            if (sauce.userId !== req.auth.userId) {
+                res.status(401).json({ message : 'Requête non autorisée !'});
             }
             // Sinon
             else {
@@ -71,11 +88,11 @@ exports.modifySauce = (req, res, next) => {
         });
 };
 
-// Controleur pour la suppression d'une sauce
+// Controleur pour la suppression d'une sauce par l'utilisateur
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id})
         .then(sauce => {
-            if (sauce.userId != req.auth.userId) {
+            if (sauce.userId !== req.auth.userId) { // on vérifie que c'est bien l'auteur qui demande la suppression
                 res.status(403).json({message: 'Requête non autorisée !'});
             } else {
                 const filenameStock = sauce.imageUrl.split('/images/')[1];
@@ -92,16 +109,3 @@ exports.deleteSauce = (req, res, next) => {
         });
 };
 
-// Controleur pour l'affichage d'une sauce
-exports.getOneSauce = (req, res, next) =>{
-    Sauce.findOne({ _id: req.params.id })
-        .then(sauce => res.status(200).json(sauce))
-        .catch(error => res.status(400).json({ error }));
-};
-
-// Controleur pour l'affichage de toutes les sauces
-exports.getAllSauces = (req, res, next) => {
-    Sauce.find() // on utilise la méthode find et on renvoie un tableau contenant les Sauces de la BDD
-        .then(sauces => res.status(200).json(sauces))
-        .catch(error => res.status(400).json({ error }));
-};
