@@ -14,6 +14,7 @@ const sauceSchema = mongoose.Schema({
     imageUrl: { type: String, required: true},
     //heat: nombre entre 1 et 10 décrivant la sauce
     heat: { type: Number, required: true},
+    //systèmede like dislike
     likes: { type: Number, default: 0},
     dislikes: { type: Number, default: 0},
     //tableau des identifiants des utilisateurs qui ont aimé (= liked) la sauce <userId>

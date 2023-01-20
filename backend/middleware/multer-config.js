@@ -5,7 +5,9 @@ const multer = require('multer');
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    'image/bmp': 'bmp',
+    'image/webp': 'webp'
 };
 
 // diskStorage() configure le chemin et le nom de fichier pour les fichiers entrants.
@@ -18,13 +20,13 @@ const storage = multer.diskStorage({
     // On modifie le nom du fichier
     filename: (req, file, callback) => {
         // On remplace les espaces éventuels par un tiret bas
-        const name = file.originalname.split('.').split(' ').join('_');
+        const name = file.originalname.split(' ', '.' ).join('_'); //erreur avec split('.')
         const extension = MIME_TYPES[file.mimetype];
-        // On ajoute au nom la date (un timestamp Date.now())pour être sûr d'avoir un nom de fichier unique
+        // On ajoute au nom la date (un timestamp Date.now())pour être sûr d'avoir un nom de fichier unique et un point et son extension.
         callback(null, name + Date.now() + '.' + extension);
     }
 });
 
-// single() crée un middleware qui capture les fichiers d'un certain type (passé en argument),
+// single(): signifie fichier unique (pas un groupe de fichiers) crée un middleware qui capture les fichiers d'un certain type (passé en argument),
 // et les enregistre au système de fichiers du serveur à l'aide du storage configuré.
 module.exports = multer({storage: storage}).single('image');

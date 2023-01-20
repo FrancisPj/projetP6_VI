@@ -1,8 +1,10 @@
+// appel de la fonction isEmail de validator que l'on installe npm install validator pour gérer la validation de l'email (comme une regex)
+// https://www.npmjs.com/package/validator
 const validator = require('validator');
 
 
 module.exports = (req,res,next) => {
-    const { email} = req.body;
+    const {email} = req.body;
 
     if(validator.isEmail(email)){
         next();

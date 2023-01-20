@@ -6,15 +6,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+
 exports.signup = (req, res, next) => {
-    //On appel la fonction de hachage de bcrypt dans notre mot de passe
+    //On appel la fonction de hachage de bcrypt dans notre mot de passe. // fonction pour hasher/crypter le mot de passe en 10 tours pour le sel
     bcrypt.hash(req.body.password, 10)
-        //il s'agit d'une fonction asynchrone qui renvoie une Promise dans laquelle nous recevons le hash généré.
+        // quand c'est hashé
         .then(hash => {
+            // créer un modèle User avec email et mot de passe hashé
             const user = new User({
                 email: req.body.email,
                 password: hash
             });
+            // sauvegarde le user dans la base de donnée
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
@@ -53,4 +56,6 @@ exports.login = (req, res, next) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
+
 };
+
