@@ -1,3 +1,6 @@
+/*--------ce fichier app.js contiendra l'application------*/
+
+// appel de express / importation de express
 const express = require('express');
 // La variable d'application stocke le module express
 const app = express();
@@ -23,7 +26,7 @@ const limiter = rateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, //  Le client pourra donc faire 100 requêtes toutes les 15 minutes
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers - Désactive les en-têtes
 })
 
 // Dotenv sert à importer un fichier de variables d'environnement.

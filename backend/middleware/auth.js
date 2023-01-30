@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
             userId: userId
         };
         next();
-    } catch(error) {
-        res.status(401).json({ error: error | "Requête non autorisée !"  });
+        } catch(error) {
+            res.status(401).json({ error: error | "Requête non autorisée !"  });
     }
 };

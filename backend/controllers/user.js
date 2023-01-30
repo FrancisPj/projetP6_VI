@@ -1,14 +1,15 @@
 // On importe les variables d'environnement.
-const dotenv = require("dotenv").config();
+// 'dotenv' pour charger les variables d'environnement dans votre application.
+require("dotenv").config();
 // On importe le package de cryptage pour hacher le mot de passe
 const bcrypt = require('bcrypt');
-// On importe le package Jsonwebtoken
+// On importe le package Jsonwebtoken utilisé pour l'authentification et l'autorisation dans l'application.
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-exports.signup = (req, res, next) => {
-    //On appel la fonction de hachage de bcrypt dans notre mot de passe. // fonction pour hasher/crypter le mot de passe en 10 tours pour le sel
+exports.signup = (req, res) => {
+    //On appel la fonction de hachage de bcrypt dans notre mot de passe. // fonction pour hasher/crypter le mot de passe en 10 tours pour le sel (SEL:une valeur aléatoire)
     bcrypt.hash(req.body.password, 10)
         // quand c'est hashé
         .then(hash => {
@@ -25,7 +26,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     // on trouve l'adresse qui est rentrée par un utilisateur (requete)
     User.findOne({ email: req.body.email })
         // pour un utilisateur

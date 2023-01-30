@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     // On modifie le nom du fichier
     filename: (req, file, callback) => {
         // On remplace les espaces éventuels par un tiret bas
-        const name = file.originalname.split(' ', '.' ).join('_'); //erreur avec split('.')
+        const name = file.originalname.split('.')[0].split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];
         // On ajoute au nom la date (un timestamp Date.now())pour être sûr d'avoir un nom de fichier unique et un point et son extension.
         callback(null, name + Date.now() + '.' + extension);
