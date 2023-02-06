@@ -1,4 +1,4 @@
-//importe le package http de node
+//importe le package http de node pour avoir les outils pour créer le serveur
 const http = require('http');
 //importe le fichier app.js
 const app = require('./app');

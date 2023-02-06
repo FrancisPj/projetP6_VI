@@ -9,7 +9,8 @@ const Sauce = require('../models/sauce');
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
         .then(sauce => res.status(200).json(sauce))
-        .catch(error => res.status(400).json({error}));
+        .catch(error => res.status(400).json({error: error,
+         message :"Impossible de récupérer la sauce"}));
 
 };
 
@@ -17,7 +18,8 @@ exports.getOneSauce = (req, res, next) => {
 exports.getAllSauces = (req, res, next) => {
     Sauce.find() // on utilise la méthode find et on renvoie un tableau contenant la liste complète des Sauces de la BDD
         .then(sauces => res.status(200).json(sauces))
-        .catch(error => res.status(400).json({error}));
+        .catch(error => res.status(400).json({error: error,
+         message :"Impossible de récupérer les sauces de la base de données"}));
 };
 
 // Controleur pour la création d'une sauce

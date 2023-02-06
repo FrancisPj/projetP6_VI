@@ -20,6 +20,7 @@ const helmet = require('helmet');
 
 // Express-rate-limit sert à limiter la demande entrante. Empêche la même adresse IP de faire trop de requests
 const rateLimiter  = require('express-rate-limit');
+
 const limiter = rateLimiter({
     // max contient le nombre maximum de requêtes et windowMs contient le temps en millisecondes,
 // de sorte que seule la quantité maximale de requêtes peut être effectuée dans le temps windowMS.
@@ -55,6 +56,7 @@ mongoose.connect(
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+//app.use() Route générale et la fonction (middleware)
 app.use(helmet({
     //Seules les demandes provenant du même site peuvent lire la ressource
     crossOriginResourcePolicy: { policy: "same-site" }
@@ -69,6 +71,6 @@ app.use('/api/sauces', sauceRoutes);
 // Middleware de téléchargement de fichiers (ici, images des sauces)
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-
+//exportation de app.js pour pouvoir y accéder depuis un autre fichier.rsrs
 module.exports = app;
 
