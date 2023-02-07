@@ -9,8 +9,8 @@
     - [Installer et executer le projet](#installer-et-executer-le-projet)
     - [contexte](#contexte)
     - [Éléments fournis pour la réalisation du projet](#éléments-fournis-pour-la-réalisation-du-projet)
-
     - [Outils et technologies utilisés](#outils-et-technologies-utilisés)
+    - [Conclusions](#conclusions)
 ***
 ### Le projet
 
