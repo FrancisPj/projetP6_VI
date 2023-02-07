@@ -59,9 +59,12 @@ exports.createSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
     // on crée un objet qui regarde si req.file existe ou non.
     const sauceObject = req.file ? {
-        ...JSON.parse(req.body.sauce),//on récupère l'objet en parsant la chaine de caractères
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // on recrée l'URL de l'image
-    } : {...req.body}; // si pas d'objet on le récupère dans le corp de la requête
+        //on récupère l'objet en parsant la chaine de caractères
+        ...JSON.parse(req.body.sauce),
+        // on recrée l'URL de l'image
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        // si pas d'objet on le récupère dans le corp de la requête
+    } : {...req.body};
 
     //on supprime le userId venant de la requête
     delete sauceObject.userId;

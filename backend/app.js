@@ -9,9 +9,10 @@ const app = express();
 const userRoutes = require('./routes/users');
 const sauceRoutes = require('./routes/sauces');
 
-// on importe path : donne accés au chemin du système de fichiers
+// on importe path : donne accès au chemin du système de fichiers
 const path = require('path');
 
+//importation connexion base de donnée mongoDB
 const mongoose = require('mongoose');
 
 // Sécurités nécessaires
@@ -23,7 +24,7 @@ const rateLimiter  = require('express-rate-limit');
 
 const limiter = rateLimiter({
     // max contient le nombre maximum de requêtes et windowMs contient le temps en millisecondes,
-// de sorte que seule la quantité maximale de requêtes peut être effectuée dans le temps windowMS.
+    // de sorte que seule la quantité maximale de requêtes peut être effectuée dans le temps windowMS.
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, //  Le client pourra donc faire 100 requêtes toutes les 15 minutes
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
@@ -36,14 +37,15 @@ require('dotenv').config();
 //express.json donne accès à req.body : le corps de la requête
 app.use(express.json());
 
-//La méthode app.use() permet d'attribuer un middleware à une route spécifique de l'application.
+// Gérer les problème de CORS((Cross-Origin Request Sharing)signifie mécanisme permettant à un site internet de charger une ressource située depuis un autre domaine que celui dans lequel est situé le site.)
+// La méthode app.use() permet d'attribuer un middleware à une route spécifique de l'application.
 app.use((req, res, next) => {
         //'Access-Control-Allow-Origin' = origine, '*' = tout le monde
         //origine qui a le droit d'accéder à l'API c'est tout le monde
         res.setHeader('Access-Control-Allow-Origin', '*');
         //autorisation d'utiliser certains Headers sur l'objet requête
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-        //autorisation d'utiliser certaines méthodes (verbes de requête)
+        //autorisation d'utiliser certaines méthodes de type "GET" pour récupérer des données(verbes de requête)
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         next();
 });

@@ -11,7 +11,7 @@ const pwdCtrl = require('../middleware/passwordController')
 // CRUD = CREATE ( POST ) / READ ( GET ) / UPDATE ( PUT, PATH ) / DELETE DELETE
     // intercepte les requêtes post d'inscription
 router.post('/signup', emailCtrl, pwdCtrl, userCtrl.signup);
-    // intercepte les requetes post d'authentification
+    // intercepte les requêtes post d'authentification
 router.post('/login', userCtrl.login);
 
 module.exports = router;

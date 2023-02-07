@@ -17,7 +17,7 @@ const normalizePort = val => {
 };
 
 //constante port qui définit le port
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT );
 //indique sur quelle port l'application express va tourner
 app.set('port', port);
 
@@ -60,6 +60,6 @@ server.on('listening', () => {
     console.log('Listening on ' + bind);
 });
 /* le serveur doit écouter ou attendre les requêtes on utilise la méthode listen pour cela
-3000 (valeur par défaut en développement) = numéro du port que l'on va écouter
+(valeur par défaut en développement) = numéro du port que l'on va écouter
 Il y a des cas ou le port 3000 n'est pas disponible et dans ce cas on utilise une variable d'environnement (process.env.PORT)*/
 server.listen(port);
