@@ -1,4 +1,4 @@
-// On importe multer : multer est un package de gestion de fichiers.
+// On importe multer : multer est un package de gestion de fichiers uploadés dans une application Express.
 const multer = require('multer');
 
 // On définit le format des images reçues

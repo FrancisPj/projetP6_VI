@@ -24,14 +24,20 @@ exports.getAllSauces = (req, res, next) => {
 
 // Controleur pour la création d'une sauce
 exports.createSauce = (req, res, next) => {
+
     // on extrait le sauce de la requête via le parse
     // dans req.body.sauce le sauce correspond
     const sauceObject = JSON.parse(req.body.sauce);
-    // On supprime l'id généré automatiquement et envoyé par le front-end. L'id de la sauce est créé par la base MongoDB lors de la création dans la base
+
+    // On supprime l'id généré automatiquement et envoyé par le front-end.
+    // L'id de la sauce est créé par la base MongoDB lors de la création dans la base
     delete sauceObject._id;
     delete sauceObject.userId;
+
     // on crée une nouvelle instance de Sauce
     const sauce = new Sauce({
+
+        //Le spread operator copie les propriétés de "sauceObject" dans un nouvel objet qui sera passé au constructeur "Sauce".
         ...sauceObject,
         userId: req.auth.userId,
 
@@ -46,7 +52,7 @@ exports.createSauce = (req, res, next) => {
     sauce.save()
         // on renvoie une réponse de réussite
         .then((sauce) => {
-            res.status(201).json({message: 'Sauce enregistrée !'})
+            res.status(201).json({message: 'Sauce enregistrée avec succés!'})
         })
         // on renvoie la réponse d'erreur générée automatiquement par Mongoose et un code erreur 400
         .catch((error) => {
@@ -119,12 +125,12 @@ exports.deleteSauce = (req, res, next) => {
                     // on supprime la sauce de la BDD
                     Sauce.deleteOne({_id: req.params.id})
                         .then(() => res.status(200).json({message: 'Sauce supprimée !'}))
-                        .catch(error => res.status(401).json({error}));
+                        .catch(error => res.status(401).json({error:"Vous n'avez pas les autorisations nécessaires ! "}));
                 });
             }
         })
         .catch(error => {
-            res.status(500).json({error});
+            res.status(500).json({error: "Suppression - Une erreur interne du serveur a empêché l'exécution de la requête."});
         });
 };
 
@@ -160,7 +166,7 @@ exports.likeSauce = (req, res, next) => {
                     // Suppression like - Si l'utilisateur a déjà cliqué sur le pouce like donc si l'userId est inclus dans le tableau des usersLiked
                     if (sauce.usersLiked.includes(userId)) {
                         Sauce.updateOne({_id: sauceId}, {
-                            // On supprime l'userId du tableau des usersLiked et on décrémente likes
+                            // ($pull de mongoDB) On supprime l'userId du tableau des usersLiked et ($inc de mongoDB) on décrémente likes
                             $pull: {usersLiked: userId},
                             $inc: {likes: -1}
                         })
@@ -171,7 +177,7 @@ exports.likeSauce = (req, res, next) => {
                     // Suppression dislike - Si l'utilisateur a déjà cliqué sur le pouce disLike donc si l'userId est inclus dans le tableau des usersDisliked
                     if (sauce.usersDisliked.includes(userId)) {
                         Sauce.updateOne({_id: sauceId}, {
-                            // On supprime l'userId du tableau des usersDisliked et on décrémente disLikes
+                            // ($pull de mongoDB) On supprime l'userId du tableau des usersDisliked et ($inc de mongoDB) on décrémente disLikes
                             $pull: {usersDisliked: userId},
                             $inc: {dislikes: -1}
                         })
@@ -179,7 +185,7 @@ exports.likeSauce = (req, res, next) => {
                             .catch((error) => res.status(400).json({error}))
                     }
                 })
-                .catch((error) => res.status(404).json({error}))
+                .catch((error) => res.status(404).json({error: "Not Found - Le serveur n'a pas pu trouver la ressource demandée!"}))
             break;
 
         // Si l'utilisateur clique sur le pouce disLike pour la première fois => on met à jour la sauce ayant cet Id

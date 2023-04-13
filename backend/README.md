@@ -11,7 +11,7 @@
     - [Éléments fournis pour la réalisation du projet](#éléments-fournis-pour-la-réalisation-du-projet)
     - [Outils et technologies utilisés](#outils-et-technologies-utilisés)
     - [Conclusions](#conclusions)
-***
+
 ### Le projet
 
 ### Installer et executer le projet

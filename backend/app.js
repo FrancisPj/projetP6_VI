@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 // Configuration de la base de données mongoDB avec des variables d'environnement
 mongoose.connect(
     process.env.MONGODB_URI,
-    { useNewUrlParser: true,
+        { useNewUrlParser: true,
             useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
